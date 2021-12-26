@@ -1,0 +1,47 @@
+.Slider {
+    position: relative;
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    h1 {
+        font-weight: 600;
+        color: white;
+        font-size: 50px;
+        position: relative;
+        z-index: 5;
+    }
+    p {
+        color: white;
+        font-size: 25px;
+        position: relative;
+        z-index: 5;
+    }
+}
+.background {
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    span {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.3);
+    }
+    img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+}
+.slide {
+    img {
+        max-width: 100px;
+    }
+    p {
+        font-size: 30px;
+        color: white;
+    }
+}

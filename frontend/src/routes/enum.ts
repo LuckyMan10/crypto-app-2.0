@@ -1,4 +1,4 @@
 export enum RouteNames {
   HOME = '/',
-  COIN = '/coin'
+  COIN = '/coin/:id'
 }

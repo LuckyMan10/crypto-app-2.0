@@ -1,10 +1,19 @@
 import React from 'react';
 import { Table } from 'antd';
 import style from './style.module.scss';
+import { useAppSelector } from 'app/hooks';
+import { useHistory } from 'react-router-dom';
+import { coinType } from 'features/coinGeckoApi/homePage/types';
 
-const columns = [
+const tableColumns = [
   {
-    title: 'Coin',
+    title: 'Logo',
+    dataIndex: 'image',
+    key: 'image',
+    render: (image: string) => <img style={{ maxWidth: 70 }} src={image} />
+  },
+  {
+    title: 'Name',
     dataIndex: 'coin',
     key: 'coin'
   },
@@ -24,50 +33,29 @@ const columns = [
     key: 'cap'
   }
 ];
-const data = [
-  {
-    key: '1',
-    coin: 'bitcoin',
-    price: 50000,
-    change: '-1.22%',
-    cap: 98989898
-  },
-  {
-    key: '2',
-    coin: 'bitcoin',
-    price: 50000,
-    change: '-1.22%',
-    cap: 98989898
-  },
-  {
-    key: '3',
-    coin: 'bitcoin',
-    price: 50000,
-    change: '-1.22%',
-    cap: 98989898
-  },
-  {
-    key: '4',
-    coin: 'bitcoin',
-    price: 50000,
-    change: '-1.22%',
-    cap: 98989898
-  }
-];
-
-const tableStyle = {
-  width: '95%'
-};
 
 const CurrencyTable: React.FC = () => {
+  const history = useHistory();
+  const { coinsList } = useAppSelector((state) => state.home);
+  const tableClickHandler = (record: coinType) => {
+    history.push(`/coin/${record.id}`);
+  };
   return (
     <article className={style.currencyTable}>
       <Table
-        style={tableStyle}
-        columns={columns}
-        dataSource={data}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              tableClickHandler(record);
+            }
+          };
+        }}
+        style={{ width: '95%' }}
+        columns={tableColumns}
+        dataSource={coinsList}
         pagination={{
-          position: ['bottomCenter']
+          position: ['bottomCenter'],
+          pageSize: 10
         }}
       />
     </article>

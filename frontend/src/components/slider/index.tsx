@@ -24,8 +24,7 @@ const Slider: React.FC = () => {
         infiniteLoop={true}
         showIndicators={false}
         autoPlay={false}
-        showArrows={false}
-      >
+        showArrows={false}>
         <div className={style.slide}>
           <img src={solana} />
           <p>solana</p>

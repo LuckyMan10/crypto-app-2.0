@@ -1,33 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Chart } from 'components/chart';
 import { ChartButtons } from 'components/chartButtons';
 import { CurrencyCard } from 'components/currencyCard';
 import { CurrencyDescription } from 'components/currencyDescription';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { useParams } from 'react-router-dom';
 import style from './style.module.scss';
-import bitcoin from 'assets/icons/Bitcoin.png';
-
-const cardData = {
-  rank: 1,
-  name: 'Bitcoin',
-  image: bitcoin,
-  currPrice: 50161,
-  marketCap: 948610056207,
-  title: 'Description of the cryptocurrency',
-  description:
-    'Bitcoin is the first successful internet money based on peer-to-peer technology; whereby no central bank or authority'
-};
+import { getOneCoinData, getChartData } from 'features/coinGeckoApi/coinPage/thunks';
+import { Spin } from 'antd';
 
 const Coin: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const emptyPageSize = window.innerHeight - (110 + 100);
+  const spinStyle = {
+    height: emptyPageSize,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  };
+  const {
+    isOneCoinLoading,
+    isOneCoinError,
+    oneCoinData,
+    defaultCurrency,
+    isChartDataLoading,
+    isChartDataError,
+    chartData
+  } = useAppSelector((state) => state.coin);
+  const { id } = useParams() as {
+    id: string;
+  };
+  useEffect(() => {
+    dispatch(getOneCoinData(id));
+    dispatch(getChartData({ currency: defaultCurrency, id, days: 365 }));
+  }, []);
   return (
     <main className={style.coin}>
-      <Chart />
-      <ChartButtons />
-      <div className={style.wrapper}>
-        <div className={style.coinMain}>
-          <CurrencyCard {...cardData} />
-          <CurrencyDescription {...cardData} />
-        </div>
-      </div>
+      {!isOneCoinLoading && !isOneCoinError && !isChartDataLoading && !isChartDataError ? (
+        <>
+          <Chart chartData={chartData} />
+          <ChartButtons />
+          <div className={style.wrapper}>
+            <div className={style.coinMain}>
+              <CurrencyCard {...oneCoinData[0]} />
+              <CurrencyDescription {...oneCoinData[0]} />
+            </div>
+          </div>
+        </>
+      ) : (
+        <Spin size="large" style={spinStyle} />
+      )}
     </main>
   );
 };

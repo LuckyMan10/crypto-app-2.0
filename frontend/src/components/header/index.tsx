@@ -1,43 +1,34 @@
 import React from 'react';
-import { Select } from 'antd';
 import { Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import style from './style.module.scss';
 import { Logo } from './logo';
+import { AuthModal } from 'components/authModal';
+import { useAppDispatch } from 'app/hooks';
+import { setAuthModalVisible } from 'features/local/localSlice';
+import { SelectCurr } from './SelectCurr';
 
 const Header: React.FC = () => {
-  const { Option } = Select;
-  function onChange(val: string) {
-    console.log(`selected ${val}`);
-  }
+  const dispatch = useAppDispatch();
 
-  function onSearch(val: string) {
-    console.log('search:', val);
+  function loginButtonHandler() {
+    dispatch(setAuthModalVisible(true));
   }
   return (
     <header className={style.header}>
       <Logo />
       <div className={style.buttons}>
         <div className={style.selectWrapper}>
-          <Select
-            showSearch
-            placeholder="Select a currency"
-            optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
-            filterOption={(input, option) =>
-              option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }>
-            <Option value="USD">USD</Option>
-            <Option value="RUB">RUB</Option>
-            <Option value="EUR">EUR</Option>
-          </Select>
+          <SelectCurr />
         </div>
         <div className={style.authBtnWrapper}>
-          <Button type="primary" icon={<UserOutlined />}>
+          <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
             Login
           </Button>
         </div>
+      </div>
+      <div className={style.authModalWrapper}>
+        <AuthModal />
       </div>
     </header>
   );

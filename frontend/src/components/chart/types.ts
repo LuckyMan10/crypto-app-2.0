@@ -1,1 +1,3 @@
-export type ChartDataType = Array<{ date: string; price: number }>;
+export type ChartDataType = {
+  chartData: Array<{ date: string; price: number }>;
+};

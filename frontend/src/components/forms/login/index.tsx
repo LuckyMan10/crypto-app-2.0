@@ -1,9 +1,21 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { LoginForm } from './form';
+import { loginData } from '../types';
+import { login } from 'features/authApi/thunks';
+import { useAppDispatch } from 'app/hooks';
+import { setAuthModalVisible, setAuthLoading } from 'features/local/localSlice';
 
 const Login: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const dispatch = useAppDispatch();
+  const onFinish = (values: loginData) => {
+    dispatch(setAuthLoading(true));
+    const dataCopy = { ...values };
+    delete dataCopy.remember;
+    dispatch(login(dataCopy)).then((data) => {
+      dispatch(setAuthModalVisible(false));
+      console.log(data);
+      dispatch(setAuthLoading(false));
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -11,39 +23,7 @@ const Login: React.FC = () => {
   };
   return (
     <article>
-      <Form
-        layout="vertical"
-        name="basic"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off">
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true, message: 'Please input your email!' }]}>
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}>
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 24 }}>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
-          <Button size="large" type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <LoginForm onFinish={onFinish} onFinishFailed={onFinishFailed} />
     </article>
   );
 };

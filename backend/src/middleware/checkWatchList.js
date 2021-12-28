@@ -1,10 +1,7 @@
-import {body, validationResult} from 'express-validator';
+import { body, validationResult } from 'express-validator';
 
 const validationRulesWatchList = () => {
-  return [
-    body('id').isLength({min: 2}).isString(),
-    body('name').isLength({min: 2}).isString(),
-  ];
+  return [body('id').isLength({ min: 2 }).isString(), body('name').isLength({ min: 2 }).isString()];
 };
 
 const validateWatchList = (req, res, next) => {
@@ -13,10 +10,10 @@ const validateWatchList = (req, res, next) => {
     return next();
   }
   const extractedErrors = [];
-  errors.array().map(err => extractedErrors.push({[err.param]: err.msg}));
+  errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
   return res.status(422).json({
-    errors: extractedErrors,
+    errors: extractedErrors
   });
 };
 
-export {validateWatchList, validationRulesWatchList};
+export { validateWatchList, validationRulesWatchList };

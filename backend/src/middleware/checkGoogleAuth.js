@@ -1,7 +1,7 @@
-import {body, validationResult} from 'express-validator';
+import { body, validationResult } from 'express-validator';
 
 const validationRulesGoogle = () => {
-  return [body('tokenId').isString(), body('tokenId').isLength({min: 4})];
+  return [body('tokenId').isString(), body('tokenId').isLength({ min: 4 })];
 };
 
 const validateGoogle = (req, res, next) => {
@@ -11,10 +11,10 @@ const validateGoogle = (req, res, next) => {
   }
   const extractedErrors = [];
   console.log(errors);
-  errors.array().map(err => extractedErrors.push({[err.param]: err.msg}));
+  errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
   return res.status(422).json({
-    errors: extractedErrors,
+    errors: extractedErrors
   });
 };
 
-export {validateGoogle, validationRulesGoogle};
+export { validateGoogle, validationRulesGoogle };

@@ -1,61 +1,28 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { RegForm } from './form';
+import { regData, errorsType } from '../types';
+import { registration } from 'features/authApi/thunks';
+import { useAppDispatch } from 'app/hooks';
+import { setAuthModalVisible, setAuthLoading } from 'features/local/localSlice';
 
 const Registration: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const dispatch = useAppDispatch();
+  const onFinish = (values: regData) => {
+    dispatch(setAuthLoading(true));
+    const dataCopy = { ...values };
+    delete dataCopy.confirm;
+    delete dataCopy.remember;
+    dispatch(registration(dataCopy)).then((data) => {
+      console.log('data: ', data);
+      dispatch(setAuthModalVisible(false));
+      dispatch(setAuthLoading(false));
+    });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: errorsType) => {
     console.log('Failed:', errorInfo);
   };
-  return (
-    <Form
-      layout="vertical"
-      name="basic"
-      labelCol={{ span: 24 }}
-      wrapperCol={{ span: 24 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off">
-      <Form.Item
-        label="Name"
-        name="name"
-        rules={[{ required: true, message: 'Please input your name!' }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}>
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        label="Confirm password"
-        name="confirmPassword"
-        rules={[{ required: true, message: 'Please confirm your password!' }]}>
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 24 }}>
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
-        <Button size="large" type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+  return <RegForm onFinish={onFinish} onFinishFailed={onFinishFailed} />;
 };
 
 export { Registration };

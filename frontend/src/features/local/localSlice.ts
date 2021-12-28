@@ -4,6 +4,9 @@ type initState = {
   isAuthModalVisible: boolean;
   buttonsData: Array<{ label: string; value: number }>;
   currencyData: Array<{ symbol: string; name: string }>;
+  emptyPageSize: number;
+  isAuthLoading: boolean;
+  isTableLoading: boolean;
 };
 
 const initialState = {
@@ -23,7 +26,10 @@ const initialState = {
     { symbol: 'CNY', name: 'Chinese Yuan' },
     { symbol: 'TWD', name: 'New Taiwan Dollar' },
     { symbol: 'JPY', name: 'Japanese Yen' }
-  ]
+  ],
+  emptyPageSize: 0,
+  isAuthLoading: false,
+  isTableLoading: false
 } as initState;
 
 const localSlice = createSlice({
@@ -32,9 +38,19 @@ const localSlice = createSlice({
   reducers: {
     setAuthModalVisible(state, action: PayloadAction<boolean>) {
       state.isAuthModalVisible = action.payload;
+    },
+    setEmptyPageSize(state, action: PayloadAction<number>) {
+      state.emptyPageSize = action.payload - (110 + 100); // 110, 100 -> footer, header
+    },
+    setAuthLoading(state, action: PayloadAction<boolean>) {
+      state.isAuthLoading = action.payload;
+    },
+    setTableLoading(state, action: PayloadAction<boolean>) {
+      state.isTableLoading = action.payload;
     }
   }
 });
 
-export const { setAuthModalVisible } = localSlice.actions;
+export const { setAuthModalVisible, setEmptyPageSize, setAuthLoading, setTableLoading } =
+  localSlice.actions;
 export default localSlice.reducer;

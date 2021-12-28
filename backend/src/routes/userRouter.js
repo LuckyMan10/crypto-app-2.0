@@ -1,10 +1,7 @@
 import Router from 'express';
-import {userController} from '../controllers/userController.js';
+import { userController } from '../controllers/userController.js';
 import checkAuth from '../middleware/checkAuth.js';
-import {
-  validationRulesWatchList,
-  validateWatchList,
-} from '../middleware/checkWatchList.js';
+import { validationRulesWatchList, validateWatchList } from '../middleware/checkWatchList.js';
 
 const router = new Router();
 
@@ -14,7 +11,7 @@ router.put(
   checkAuth,
   validationRulesWatchList(),
   validateWatchList,
-  userController.addWatchedCoin,
+  userController.addWatchedCoin
 );
 router.delete('/watchList', checkAuth, userController.removeWatchedCoin);
 

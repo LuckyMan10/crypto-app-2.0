@@ -17,8 +17,8 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
-  }),
+    origin: process.env.CLIENT_URL
+  })
 );
 app.use('/api', checkApiKey, router);
 
@@ -26,7 +26,7 @@ const start = async () => {
   try {
     await mongoose.connect(DB_URL, {
       useUnifiedTopology: true,
-      useNewUrlParser: true,
+      useNewUrlParser: true
     });
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   } catch (e) {

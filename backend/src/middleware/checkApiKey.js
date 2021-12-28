@@ -10,7 +10,7 @@ const checkApiKey = (req, res, next) => {
       throw 'Для работы с api нужен ключ';
     }
   } catch (e) {
-    res.status(401).json({message: e});
+    res.status(401).json({ message: e });
   }
 };
 

@@ -11,7 +11,7 @@ import { Spin } from 'antd';
 
 const Coin: React.FC = () => {
   const dispatch = useAppDispatch();
-  const emptyPageSize = window.innerHeight - (110 + 100);
+  const { emptyPageSize } = useAppSelector((state) => state.local);
   const spinStyle = {
     height: emptyPageSize,
     display: 'flex',

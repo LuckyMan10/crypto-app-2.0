@@ -1,8 +1,7 @@
-import {User} from '../models/User.js';
+import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
-import {tokenService} from './tokenService.js';
-import {UserDto} from '../dtos/userDto.js';
-
+import { tokenService } from './tokenService.js';
+import { UserDto } from '../dtos/userDto.js';
 
 class AuthService {
   async googleAuth({ email, username }) {
@@ -87,7 +86,4 @@ class AuthService {
 
 const authService = new AuthService();
 
-export {
-  authService
-}
-
+export { authService };

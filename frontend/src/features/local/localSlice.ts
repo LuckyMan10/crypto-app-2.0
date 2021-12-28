@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type initState = {
   isAuthModalVisible: boolean;
-  buttonsData: Array<{ label: string; value: number }>;
+  buttonsData: Array<{ id: string; days: number; text: string }>;
   currencyData: Array<{ symbol: string; name: string }>;
   emptyPageSize: number;
   isAuthLoading: boolean;
@@ -12,10 +12,10 @@ type initState = {
 const initialState = {
   isAuthModalVisible: false,
   buttonsData: [
-    { label: '24 HOURS', value: 1 },
-    { label: '30 DAYS', value: 30 },
-    { label: '3 MONTHS', value: 90 },
-    { label: '1 YEAR', value: 365 }
+    { id: 'button_1', text: '24 HOURS', days: 1 },
+    { id: 'button_2', text: '30 DAYS', days: 30 },
+    { id: 'button_3', text: '3 MONTHS', days: 90 },
+    { id: 'button_4', text: '1 YEAR', days: 365 }
   ],
   currencyData: [
     { symbol: 'USD', name: 'US Dollar' },

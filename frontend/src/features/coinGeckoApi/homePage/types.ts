@@ -2,7 +2,6 @@ export type initState = {
   trendingCoins: Array<any>;
   coinsList: Array<coinType>;
   filtredCoinsList: Array<any>;
-  currentCoins: Array<any>;
   isTrendingCoinsLoading: boolean;
   isTrendingCoinsError: boolean;
   isCoinsListLoading: boolean;

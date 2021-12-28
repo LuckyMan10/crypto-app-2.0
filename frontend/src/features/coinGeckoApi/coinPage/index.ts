@@ -9,7 +9,8 @@ const initialState = {
   isOneCoinLoading: true,
   isOneCoinError: false,
   isChartDataError: false,
-  defaultCurrency: 'USD'
+  defaultCurrency: 'USD',
+  days: 365
 } as initState;
 
 const coinPageSlice = createSlice({
@@ -18,6 +19,9 @@ const coinPageSlice = createSlice({
   reducers: {
     setDefaultCurrency(state, action: PayloadAction<string>) {
       state.defaultCurrency = action.payload;
+    },
+    setDays(state, action: PayloadAction<number>) {
+      state.days = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -29,7 +33,13 @@ const coinPageSlice = createSlice({
         const chartPrices = action.payload.map(
           (coin: number[]): { date: string; price: number } => {
             const date = new Date(coin[0]);
-            const fullDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            const hour = date.getHours();
+            const min = date.getMinutes();
+            const sec = date.getSeconds();
+            const fullDate = `${year}/${month}/${day}, ${hour} h. ${min} min. ${sec} sec.`;
             return { date: fullDate, price: coin[1] };
           }
         );
@@ -71,6 +81,6 @@ const coinPageSlice = createSlice({
   }
 });
 
-export const { setDefaultCurrency } = coinPageSlice.actions;
+export const { setDefaultCurrency, setDays } = coinPageSlice.actions;
 
 export default coinPageSlice.reducer;

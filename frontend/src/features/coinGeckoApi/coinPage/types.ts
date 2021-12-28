@@ -57,4 +57,5 @@ export type initState = {
   isOneCoinLoading: boolean;
   isOneCoinError: boolean;
   defaultCurrency: string;
+  days: number;
 };

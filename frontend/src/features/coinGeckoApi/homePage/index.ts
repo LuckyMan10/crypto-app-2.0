@@ -6,7 +6,6 @@ const initialState = {
   trendingCoins: [],
   coinsList: [],
   filtredCoinsList: [],
-  currentCoins: [],
   isTrendingCoinsLoading: true,
   isCoinsListLoading: true,
   isTrendingCoinsError: false,
@@ -26,6 +25,21 @@ const homeSlice = createSlice({
   reducers: {
     setCurrency(state, action: PayloadAction<string>) {
       state.defaultCurrency = action.payload;
+    },
+    setFiltredCoinsList(state, action: PayloadAction<string>) {
+      const filtredCoinsList = state.coinsList.filter(
+        (el) =>
+          el.coin.toLowerCase().includes(action.payload.toLowerCase()) ||
+          el.id.toLowerCase().includes(action.payload.toLowerCase())
+      );
+      state.filtredCoinsList = filtredCoinsList;
+      state.isFiltred = true;
+      if (action.payload === '') {
+        state.isFiltred = false;
+      }
+    },
+    setSearchValue(state, action: PayloadAction<string>) {
+      state.searchValue = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -55,7 +69,16 @@ const homeSlice = createSlice({
               price: `${el.current_price} ${state.defaultCurrency}`
             };
           });
-          state.coinsList = filtredData;
+          if (!state.isFiltred) {
+            state.coinsList = filtredData;
+          } else {
+            const filtredByInput = filtredData.filter(
+              (el) =>
+                el.coin.toLowerCase().includes(state.searchValue.toLowerCase()) ||
+                el.id.toLowerCase().includes(state.searchValue.toLowerCase())
+            );
+            state.filtredCoinsList = filtredByInput;
+          }
           state.isCoinsListLoading = false;
           state.isCoinsListError = false;
         }
@@ -66,5 +89,5 @@ const homeSlice = createSlice({
       });
   }
 });
-export const { setCurrency } = homeSlice.actions;
+export const { setCurrency, setFiltredCoinsList, setSearchValue } = homeSlice.actions;
 export default homeSlice.reducer;

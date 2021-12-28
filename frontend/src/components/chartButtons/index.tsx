@@ -1,38 +1,27 @@
 import React from 'react';
 import { Button } from 'antd';
 import style from './style.module.scss';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { setDays } from 'features/coinGeckoApi/coinPage/index';
 
 const ChartButtons: React.FC = () => {
-  const buttonsData = [
-    {
-      id: 'button_1',
-      text: '24 HOURS',
-      days: 1
-    },
-    {
-      id: 'button_2',
-      text: '30 DAYS',
-      days: 30
-    },
-    {
-      id: 'button_3',
-      text: '3 MONTHS',
-      days: 90
-    },
-    {
-      id: 'button_4',
-      text: '1 YEAR',
-      days: 365
+  const dispatch = useAppDispatch();
+  const { buttonsData } = useAppSelector((state) => state.local);
+  const chartButtonsClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    const id = (e.target as HTMLElement).id;
+    if (id) {
+      const [button] = buttonsData.filter((el) => el.id === id);
+      dispatch(setDays(button.days));
     }
-  ];
+  };
 
   return (
     <article className={style.chartButtons}>
-      <div className={style.buttonsWrapper}>
+      <div onClick={chartButtonsClickHandler} className={style.buttonsWrapper}>
         {buttonsData.map((el) => {
           return (
-            <Button key={el.id} size="large" type="default">
-              {el.text}
+            <Button id={el.id} key={el.id} size="large" type="default">
+              <p id={el.id}>{el.text}</p>
             </Button>
           );
         })}

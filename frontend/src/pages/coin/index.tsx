@@ -4,13 +4,16 @@ import { ChartButtons } from 'components/chartButtons';
 import { CurrencyCard } from 'components/currencyCard';
 import { CurrencyDescription } from 'components/currencyDescription';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import style from './style.module.scss';
 import { getOneCoinData, getChartData } from 'features/coinGeckoApi/coinPage/thunks';
 import { Spin } from 'antd';
+import { Button } from 'antd';
+import { RouteNames } from 'routes/enum';
 
 const Coin: React.FC = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const { emptyPageSize } = useAppSelector((state) => state.local);
   const spinStyle = {
     height: emptyPageSize,
@@ -25,15 +28,20 @@ const Coin: React.FC = () => {
     defaultCurrency,
     isChartDataLoading,
     isChartDataError,
-    chartData
+    chartData,
+    days
   } = useAppSelector((state) => state.coin);
   const { id } = useParams() as {
     id: string;
   };
   useEffect(() => {
     dispatch(getOneCoinData(id));
-    dispatch(getChartData({ currency: defaultCurrency, id, days: 365 }));
-  }, []);
+    dispatch(getChartData({ currency: defaultCurrency, id, days }));
+  }, [days]);
+  const toHomeHandler = () => {
+    history.push(RouteNames.HOME);
+    window.scrollTo(0, 0);
+  };
   return (
     <main className={style.coin}>
       {!isOneCoinLoading && !isOneCoinError && !isChartDataLoading && !isChartDataError ? (
@@ -45,6 +53,11 @@ const Coin: React.FC = () => {
               <CurrencyCard {...oneCoinData[0]} />
               <CurrencyDescription {...oneCoinData[0]} />
             </div>
+          </div>
+          <div className={style.toHomeWrapper}>
+            <Button size="large" onClick={toHomeHandler}>
+              To home
+            </Button>
           </div>
         </>
       ) : (

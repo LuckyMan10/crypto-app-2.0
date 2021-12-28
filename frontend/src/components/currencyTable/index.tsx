@@ -8,7 +8,7 @@ import { tableColumns } from './columns';
 
 const CurrencyTable: React.FC = () => {
   const history = useHistory();
-  const { coinsList } = useAppSelector((state) => state.home);
+  const { coinsList, isFiltred, filtredCoinsList } = useAppSelector((state) => state.home);
   const { isTableLoading } = useAppSelector((state) => state.local);
   const tableClickHandler = (record: coinType) => {
     history.push(`/coin/${record.id}`);
@@ -25,7 +25,7 @@ const CurrencyTable: React.FC = () => {
         }}
         style={{ width: '95%' }}
         columns={tableColumns}
-        dataSource={coinsList}
+        dataSource={isFiltred ? filtredCoinsList : coinsList}
         loading={isTableLoading}
         pagination={{
           position: ['bottomCenter'],

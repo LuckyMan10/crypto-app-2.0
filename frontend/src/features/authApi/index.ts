@@ -21,26 +21,35 @@ const authSlice = createSlice({
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken
       };
+      localStorage.setItem('accessToken', action.payload.accessToken);
       state.isAuthLoading = false;
       state.isAuth = true;
       state.isAuthError = false;
     }),
       builder.addCase(registration.rejected, (state) => {
+        localStorage.removeItem('accessToken');
         state.isAuthError = true;
         state.isAuth = false;
         state.isAuthLoading = false;
       }),
       builder.addCase(login.fulfilled, (state, action: PayloadAction<userDataType>) => {
-        state.user = action.payload.user;
+        const user = {
+          email: action.payload.user.email,
+          id: action.payload.user.id,
+          username: action.payload.user.username
+        };
+        state.user = user;
         state.tokens = {
           accessToken: action.payload.accessToken,
           refreshToken: action.payload.refreshToken
         };
+        localStorage.setItem('accessToken', action.payload.accessToken);
         state.isAuthLoading = false;
         state.isAuth = true;
         state.isAuthError = false;
       }),
       builder.addCase(login.rejected, (state) => {
+        localStorage.removeItem('accessToken');
         state.isAuthError = true;
         state.isAuth = false;
         state.isAuthLoading = false;
@@ -51,16 +60,19 @@ const authSlice = createSlice({
           accessToken: action.payload.accessToken,
           refreshToken: action.payload.refreshToken
         };
+        localStorage.setItem('accessToken', action.payload.accessToken);
         state.isAuthLoading = false;
         state.isAuth = true;
         state.isAuthError = false;
       }),
       builder.addCase(refresh.rejected, (state) => {
+        localStorage.removeItem('accessToken');
         state.isAuthError = true;
         state.isAuth = false;
         state.isAuthLoading = false;
       }),
       builder.addCase(logout.fulfilled, (state) => {
+        localStorage.removeItem('accessToken');
         state.isAuth = false;
         state.isAuthError = false;
         state.isAuthLoading = false;

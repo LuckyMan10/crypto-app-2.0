@@ -21,10 +21,23 @@
 }
 .buttons {
     display: flex;
+    align-items: center;
 }
 .selectWrapper, .authBtnWrapper {
     margin: 0px 10px;
 }
 .authModalWrapper {
     position: absolute;
+}
+
+.menuWrapper {
+    user-select: none;
+    width: 256px;
+    height: 50px;
+    position: relative;
+}
+.menu {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
 }

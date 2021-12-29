@@ -1,13 +1,14 @@
+export type userType = {
+  email: string;
+  id: string;
+  username: string;
+};
 export type initState = {
   tokens: {
     accessToken: string;
     refreshToken: string;
   };
-  user: {
-    email: string;
-    id: string;
-    username: string;
-  };
+  user: userType;
   isAuth: boolean;
   isAuthLoading: boolean;
   isAuthError: boolean;

@@ -4,13 +4,14 @@ import { UserOutlined } from '@ant-design/icons';
 import style from './style.module.scss';
 import { Logo } from './logo';
 import { AuthModal } from 'components/authModal';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setAuthModalVisible } from 'features/local/localSlice';
 import { SelectCurr } from './SelectCurr';
+import { UserMenu } from './Menu';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  const { isAuth, isAuthError, user } = useAppSelector((state) => state.auth);
   function loginButtonHandler() {
     dispatch(setAuthModalVisible(true));
   }
@@ -22,9 +23,13 @@ const Header: React.FC = () => {
           <SelectCurr />
         </div>
         <div className={style.authBtnWrapper}>
-          <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
-            Login
-          </Button>
+          {isAuth && !isAuthError ? (
+            <UserMenu {...user} />
+          ) : (
+            <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
+              Login
+            </Button>
+          )}
         </div>
       </div>
       <div className={style.authModalWrapper}>

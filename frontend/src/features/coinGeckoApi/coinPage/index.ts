@@ -65,7 +65,8 @@ const coinPageSlice = createSlice({
           marketCap:
             action.payload.market_data.market_cap[state.defaultCurrency.toLocaleLowerCase()],
           title: 'Description of the cryptocurrency',
-          description: action.payload.description['en']
+          description: action.payload.description['en'],
+          id: action.payload.id
         };
         state.oneCoinData.pop();
         state.oneCoinData.push(coinData);

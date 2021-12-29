@@ -6,11 +6,13 @@ import { Footer } from 'components/footer';
 import { AppRouter } from 'routes';
 import { useAppDispatch } from 'app/hooks';
 import { setEmptyPageSize } from 'features/local/localSlice';
+import { refresh } from 'features/authApi/thunks';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setEmptyPageSize(window.innerHeight));
+    dispatch(refresh());
   }, []);
 
   return (

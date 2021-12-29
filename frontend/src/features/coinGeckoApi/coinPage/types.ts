@@ -48,6 +48,7 @@ export type oneCoinType = {
   marketCap: number;
   title: string;
   description: string;
+  id: string;
 };
 export type initState = {
   chartData: ChartDataType;

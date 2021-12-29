@@ -1,18 +1,56 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from './axios';
-import { watchList } from './types';
+import { coinGecko } from 'features/coinGeckoApi/axios';
+import { watchList, watchListItem, watchListData, updateChart, getWatchList } from './types';
+import axios from 'axios';
 
-const getWatchList = createAsyncThunk('user/getWatchList', async () => {
-  const { data } = await userApi.get('/watchList');
-  return data as watchList;
-});
-const addWatchedCoin = createAsyncThunk('user/addWatchedCoin', async () => {
-  const { data } = await userApi.put('/watchList');
-  return data as watchList;
-});
-const removeWatchedCoin = createAsyncThunk('user/removeWatchedCoin', async () => {
-  const { data } = await userApi.delete('/watchList');
-  return data as watchList;
+const getWatchList = createAsyncThunk(
+  'user/getWatchList',
+  async ({ currency, days }: getWatchList) => {
+    const { data } = await userApi().get('/watchList');
+    const idList = data.watchList.map((el: watchListItem) => `${coinGecko}/${el.id}`);
+    const allCoinsData = await axios.all(
+      idList.map(async (endpoint: string) => {
+        const { data } = await axios.get(endpoint);
+        const { data: chartData } = await axios.get(
+          `${coinGecko}/${data.id}/market_chart?vs_currency=${currency}&days=${days}`
+        );
+        const { prices } = chartData;
+        return {
+          coinData: data,
+          chartData: prices
+        };
+      })
+    );
+
+    return allCoinsData as watchListData;
+  }
+);
+const updateOneChart = createAsyncThunk(
+  'user/updateOneChart',
+  async ({ id, days, currency }: updateChart) => {
+    const { data } = await axios.get(
+      `${coinGecko}/${id}/market_chart?vs_currency=${currency}&days=${days}`
+    );
+    const { prices } = data;
+    return { data: prices, id };
+  }
+);
+const addWatchedCoin = createAsyncThunk(
+  'user/addWatchedCoin',
+  async (newCoinData: watchListItem) => {
+    const { data } = await userApi().put('/watchList', newCoinData);
+    return data as watchList;
+  }
+);
+const removeWatchedCoin = createAsyncThunk('user/removeWatchedCoin', async (id?: string) => {
+  if (id) {
+    const { data } = await userApi().delete(`/watchList?id=${id}`);
+    return data as watchList;
+  } else {
+    const { data } = await userApi().delete('/watchList');
+    return data as watchList;
+  }
 });
 
-export { getWatchList, addWatchedCoin, removeWatchedCoin };
+export { getWatchList, addWatchedCoin, removeWatchedCoin, updateOneChart };

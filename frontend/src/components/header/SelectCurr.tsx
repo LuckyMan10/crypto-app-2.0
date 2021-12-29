@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { setCurrency } from 'features/coinGeckoApi/homePage';
 import { setDefaultCurrency } from 'features/coinGeckoApi/coinPage';
+import { setUserDefaulCurrency } from 'features/userApi';
 
 const SelectCurr: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ const SelectCurr: React.FC = () => {
   function onChange(currency: string) {
     dispatch(setCurrency(currency));
     dispatch(setDefaultCurrency(currency));
+    dispatch(setUserDefaulCurrency(currency));
   }
   return (
     <Select

@@ -5,7 +5,7 @@ import { getWatchList, updateOneChart } from 'features/userApi/thunks';
 import { setLoadingChart, setDays } from 'features/userApi/index';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Line } from '@ant-design/charts';
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 import { Spin } from 'antd';
 import { oneCoinType } from 'features/coinGeckoApi/coinPage/types';
 import { removeWatchedCoin } from 'features/userApi/thunks';
@@ -14,6 +14,11 @@ const spinStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center'
+};
+const dividerStyle = {
+  color: 'white',
+  fontSize: 25,
+  borderColor: 'white'
 };
 
 const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, index }) => {
@@ -41,6 +46,9 @@ const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, i
       style={{ minHeight: emptyPageSize }}
       className={style.watchList}
       key={`watch-list_${index}`}>
+      <Divider style={dividerStyle} plain>
+        {coin.name}
+      </Divider>
       <div className={style.oneCoin}>
         <div className={style.oneCoinWrapper}>
           <div className={style.cardWrapper}>

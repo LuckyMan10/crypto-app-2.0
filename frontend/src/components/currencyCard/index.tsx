@@ -4,7 +4,8 @@ import { Card } from 'antd';
 import { Description } from './description';
 
 const cardStyle = {
-  maxWidth: 340
+  width: '100%',
+  minWidth: 315
 };
 
 type cardType = {

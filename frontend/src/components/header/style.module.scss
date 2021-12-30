@@ -57,3 +57,11 @@
     width: 100%;
     z-index: 10;
 }
+.notAuthBtnWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    @media all and(max-width: 450px) {
+        flex-direction: row;
+    }
+}

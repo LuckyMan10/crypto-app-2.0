@@ -6,6 +6,7 @@ import { setDays } from 'features/coinGeckoApi/coinPage/index';
 
 const ChartButtons: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { days } = useAppSelector((state) => state.coin);
   const { buttonsData } = useAppSelector((state) => state.local);
   const chartButtonsClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const id = (e.target as HTMLElement).id;
@@ -20,7 +21,7 @@ const ChartButtons: React.FC = () => {
       <div onClick={chartButtonsClickHandler} className={style.buttonsWrapper}>
         {buttonsData.map((el) => {
           return (
-            <Button id={el.id} key={el.id} size="large" type="default">
+            <Button id={el.id} key={el.id} size="large" disabled={days === el.days} type="default">
               <p id={el.id}>{el.text}</p>
             </Button>
           );

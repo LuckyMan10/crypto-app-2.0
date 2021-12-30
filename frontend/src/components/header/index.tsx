@@ -26,9 +26,12 @@ const Header: React.FC = () => {
           {isAuth && !isAuthError ? (
             <UserMenu {...user} />
           ) : (
-            <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
-              Login
-            </Button>
+            <div className={style.notAuthBtnWrapper}>
+              <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
+                Login
+              </Button>
+              {isMediumScreen && <SelectCurr />}
+            </div>
           )}
         </div>
       </div>

@@ -1,7 +1,10 @@
 import { body, validationResult } from 'express-validator';
 
 const validationRulesWatchList = () => {
-  return [body('coinId').isLength({ min: 2 }).isString(), body('name').isLength({ min: 2 }).isString()];
+  return [
+    body('coinId').isLength({ min: 2 }).isString(),
+    body('name').isLength({ min: 2 }).isString()
+  ];
 };
 
 const validateWatchList = (req, res, next) => {

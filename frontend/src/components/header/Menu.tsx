@@ -43,7 +43,11 @@ const UserMenu: React.FC<userType> = ({ username }) => {
             <Menu.Item key="4" onClick={logoutHandler}>
               logout
             </Menu.Item>
-            <Menu.Item key="5">{isMediumScreen && <SelectCurr />}</Menu.Item>
+            {isMediumScreen && (
+              <Menu.Item key="5">
+                <SelectCurr />
+              </Menu.Item>
+            )}
           </SubMenu>
         </Menu>
       </div>

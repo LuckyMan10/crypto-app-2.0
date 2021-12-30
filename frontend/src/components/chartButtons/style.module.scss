@@ -7,4 +7,10 @@
     width: 50%;
     display: flex;
     justify-content: space-around;
+    gap: 10px;
+    @media all and (max-width: 470px) {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+    }
 }

@@ -5,9 +5,9 @@
 .watchList {
   display: flex;
   flex-direction: column;
+  margin-bottom: 50px;
 }
 .cardWrapper {
-  width: 20%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -23,8 +23,10 @@
   display: flex;
   justify-content: space-between;
   align-items: top;
+  gap: 10px;
   width: 100%;
   margin: 30px 0px;
+  
 }
 .buttons {
   display: flex;
@@ -35,4 +37,24 @@
   display: flex;
   justify-content: center;
   gap: 30px;
+}
+
+@media all and (max-width: 1350px) {
+  .oneCoinWrapper {
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+  .chartWrapper {
+    width: 100%;
+  }
+  .buttonsWrapper {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media all and (max-width: 550px) {
+  .buttonsWrapper {
+    width: 100%;
+    flex-wrap: wrap;
+  }
 }

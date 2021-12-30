@@ -8,6 +8,7 @@ import { Line } from '@ant-design/charts';
 import { Button } from 'antd';
 import { Spin } from 'antd';
 import { oneCoinType } from 'features/coinGeckoApi/coinPage/types';
+import { removeWatchedCoin } from 'features/userApi/thunks';
 
 const spinStyle = {
   display: 'flex',
@@ -18,10 +19,10 @@ const spinStyle = {
 const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, index }) => {
   const dispatch = useAppDispatch();
   const { defaultCurrency, charts, chartsLoading, days } = useAppSelector((state) => state.user);
-  const { buttonsData } = useAppSelector((state) => state.local);
+  const { buttonsData, emptyPageSize } = useAppSelector((state) => state.local);
   useEffect(() => {
     dispatch(getWatchList({ currency: defaultCurrency, days: 365 }));
-  }, []);
+  }, [defaultCurrency]);
   const chartButtonsClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const id = (e.target as HTMLElement).id;
     const days = Number((e.target as HTMLElement).dataset.days);
@@ -32,12 +33,21 @@ const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, i
       });
     }
   };
+  const removeCoinHandler = () => {
+    dispatch(removeWatchedCoin(coin.id));
+  };
   return (
-    <div className={style.watchList} key={`watch-list_${index}`}>
+    <div
+      style={{ minHeight: emptyPageSize }}
+      className={style.watchList}
+      key={`watch-list_${index}`}>
       <div className={style.oneCoin}>
         <div className={style.oneCoinWrapper}>
           <div className={style.cardWrapper}>
             <CurrencyCard {...coin} />
+            <Button onClick={removeCoinHandler} danger type="primary">
+              <p>Remove coin</p>
+            </Button>
           </div>
           <div className={style.chartWrapper}>
             {!chartsLoading[coin.id] ? (

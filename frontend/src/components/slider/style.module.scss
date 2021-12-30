@@ -13,10 +13,19 @@
         z-index: 5;
     }
     p {
+        text-align: center;
         color: white;
         font-size: 25px;
         position: relative;
         z-index: 5;
+    }
+    @media all and(max-width: 350px) {
+        h1 {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1.1rem;
+        }
     }
 }
 .background {
@@ -37,11 +46,21 @@
     }
 }
 .slide {
+    user-select: none;
+    cursor: pointer;
     img {
         max-width: 100px;
     }
     p {
         font-size: 30px;
         color: white;
+    }
+    @media all and(max-width: 350px) {
+        img {
+            max-width: 75px;
+        }
+        p {
+            font-size: 1.1rem;
+        }
     }
 }

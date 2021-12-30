@@ -7,9 +7,10 @@ import style from './style.module.scss';
 import { Login } from 'components/forms/login';
 import { Registration } from 'components/forms/registration';
 import { Spin } from 'antd';
+import { modal } from './enum';
 
 const AuthModal: React.FC = () => {
-  const [authVariant, setAuthVariant] = useState<string>('login');
+  const [authVariant, setAuthVariant] = useState<string>(modal.LOGIN);
   const dispatch = useAppDispatch();
   const { isAuthModalVisible, isAuthLoading } = useAppSelector((state) => state.local);
   const handleOk = () => {
@@ -35,14 +36,14 @@ const AuthModal: React.FC = () => {
         footer={null}>
         <Spin size="large" spinning={isAuthLoading}>
           <div onClick={buttonsHandler} className={style.logReg_buttons}>
-            <Button disabled={authVariant === 'login'} id="login">
-              <p id="login">Login</p>
+            <Button disabled={authVariant === modal.LOGIN} id={modal.LOGIN}>
+              <p id={modal.LOGIN}>Login</p>
             </Button>
-            <Button disabled={authVariant === 'reg'} id="reg">
-              <p id="reg">Registration</p>
+            <Button disabled={authVariant === modal.REGISTRATION} id={modal.REGISTRATION}>
+              <p id={modal.REGISTRATION}>Registration</p>
             </Button>
           </div>
-          {authVariant === 'login' ? <Login /> : <Registration />}
+          {authVariant === modal.LOGIN ? <Login /> : <Registration />}
         </Spin>
       </Modal>
     </article>

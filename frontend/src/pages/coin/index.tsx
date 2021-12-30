@@ -10,13 +10,13 @@ import { getOneCoinData, getChartData } from 'features/coinGeckoApi/coinPage/thu
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { RouteNames } from 'routes/enum';
-import spinCoin from 'assets/gif/spin_coin.gif';
-import { addWatchedCoin } from 'features/userApi/thunks';
+import { AddToWatch } from 'components/addToWatchButton';
 
 const Coin: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { emptyPageSize } = useAppSelector((state) => state.local);
+  const { isAuth, isAuthError } = useAppSelector((state) => state.auth);
   const spinStyle = {
     height: emptyPageSize,
     display: 'flex',
@@ -44,16 +44,6 @@ const Coin: React.FC = () => {
     history.push(RouteNames.HOME);
     window.scrollTo(0, 0);
   };
-  const addToWatchHandler = () => {
-    console.log(oneCoinData[0]);
-    const data = {
-      id: oneCoinData[0].id,
-      name: oneCoinData[0].name
-    };
-    dispatch(addWatchedCoin(data)).then((data) => {
-      console.log('data: ', data);
-    });
-  };
   return (
     <main className={style.coin}>
       {!isOneCoinLoading && !isOneCoinError && !isChartDataLoading && !isChartDataError ? (
@@ -71,12 +61,7 @@ const Coin: React.FC = () => {
               To home
             </Button>
           </div>
-          <div className={style.addToWatchWrapper}>
-            <button onClick={addToWatchHandler}>
-              <img src={spinCoin} alt="spin-coin" />
-              <h2>Add to watch list</h2>
-            </button>
-          </div>
+          {isAuth && !isAuthError && <AddToWatch />}
         </>
       ) : (
         <Spin size="large" style={spinStyle} />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const tableColumns = [
+const defaultTableColumns = [
   {
     title: 'Logo',
     dataIndex: 'image',
@@ -28,5 +28,23 @@ const tableColumns = [
     key: 'cap'
   }
 ];
+const mobileTableColumns = [
+  {
+    title: 'Logo',
+    dataIndex: 'image',
+    key: 'image',
+    render: (image: string) => <img style={{ maxWidth: 45 }} src={image} />
+  },
+  {
+    title: 'Name',
+    dataIndex: 'coin',
+    key: 'coin'
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price'
+  }
+];
 
-export { tableColumns };
+export { defaultTableColumns, mobileTableColumns };

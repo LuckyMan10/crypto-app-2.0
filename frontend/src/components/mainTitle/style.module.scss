@@ -4,5 +4,8 @@
     h2 {
         font-size: 25px;
         color: white;
+        @media all and(max-width: 350px) {
+            font-size: 1.2rem;
+        }
     }
 }

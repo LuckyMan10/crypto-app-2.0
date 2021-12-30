@@ -1,6 +1,7 @@
 import { initState, coinDataType } from './types';
 import { getTrendingCoins, getCoinsList } from './thunks';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { tableCoinFormatter } from 'utils/tableCoinFormatter';
 
 const initialState = {
   trendingCoins: [],
@@ -58,17 +59,7 @@ const homeSlice = createSlice({
       builder.addCase(
         getCoinsList.fulfilled,
         (state, action: PayloadAction<Array<coinDataType>>) => {
-          const filtredData = action.payload.map((el) => {
-            return {
-              coin: el.name,
-              image: el.image,
-              id: el.id,
-              change: el.market_cap_change_percentage_24h,
-              cap: el.market_cap,
-              key: `key_${el.id}`,
-              price: `${el.current_price} ${state.defaultCurrency}`
-            };
-          });
+          const filtredData = tableCoinFormatter(action.payload, state.defaultCurrency);
           if (!state.isFiltred) {
             state.coinsList = filtredData;
           } else {

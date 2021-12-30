@@ -17,7 +17,7 @@ class UserController {
     try {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-      const { id: coinId, name } = req.body;
+      const { coinId, name } = req.body;
       if (!coinId || !name) {
         throw 'Недостаточно данных для обработки';
       }

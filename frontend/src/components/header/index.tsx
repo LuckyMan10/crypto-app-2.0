@@ -6,12 +6,14 @@ import { Logo } from './logo';
 import { AuthModal } from 'components/authModal';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setAuthModalVisible } from 'features/local/localSlice';
+import { useMediaQuery } from 'react-responsive';
 import { SelectCurr } from './SelectCurr';
 import { UserMenu } from './Menu';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const { isAuth, isAuthError, user } = useAppSelector((state) => state.auth);
+  const isMediumScreen = useMediaQuery({ query: '(max-width: 660px)' });
   function loginButtonHandler() {
     dispatch(setAuthModalVisible(true));
   }
@@ -19,9 +21,7 @@ const Header: React.FC = () => {
     <header className={style.header}>
       <Logo />
       <div className={style.buttons}>
-        <div className={style.selectWrapper}>
-          <SelectCurr />
-        </div>
+        <div className={style.selectWrapper}>{!isMediumScreen && <SelectCurr />}</div>
         <div className={style.authBtnWrapper}>
           {isAuth && !isAuthError ? (
             <UserMenu {...user} />

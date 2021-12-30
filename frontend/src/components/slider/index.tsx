@@ -19,11 +19,13 @@ const Slider: React.FC = () => {
         <img src={backgroundImg} />
       </div>
       <Carousel
+        transitionTime={1000}
+        interval={6000}
         showStatus={false}
         showThumbs={false}
         infiniteLoop={true}
         showIndicators={false}
-        autoPlay={false}
+        autoPlay={true}
         showArrows={false}>
         <div className={style.slide}>
           <img src={solana} />

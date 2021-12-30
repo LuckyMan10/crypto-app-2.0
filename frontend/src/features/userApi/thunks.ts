@@ -1,7 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from './axios';
 import { coinGecko } from 'features/coinGeckoApi/axios';
-import { watchList, watchListItem, watchListData, updateChart, getWatchList } from './types';
+import {
+  oneWatchListData,
+  watchList,
+  watchListItem,
+  ArrayWatchListData,
+  updateChart,
+  getWatchList,
+  addNewCoin
+} from './types';
 import axios from 'axios';
 
 const getWatchList = createAsyncThunk(
@@ -23,7 +31,7 @@ const getWatchList = createAsyncThunk(
       })
     );
 
-    return allCoinsData as watchListData;
+    return allCoinsData as ArrayWatchListData;
   }
 );
 const updateOneChart = createAsyncThunk(
@@ -38,18 +46,28 @@ const updateOneChart = createAsyncThunk(
 );
 const addWatchedCoin = createAsyncThunk(
   'user/addWatchedCoin',
-  async (newCoinData: watchListItem) => {
-    const { data } = await userApi().put('/watchList', newCoinData);
-    return data as watchList;
+  async ({ newCoinData, days, currency }: addNewCoin) => {
+    const { data: coinsData } = await userApi().put('/watchList', newCoinData);
+    const lastCoin = coinsData.watchList[coinsData.watchList.length - 1];
+    const { data: fullData } = await axios.get(`${coinGecko}/${lastCoin.id}`);
+    const { data } = await axios.get(
+      `${coinGecko}/${newCoinData.coinId}/market_chart?vs_currency=${currency}&days=${days}`
+    );
+    const { prices } = data;
+    const newCoin = {
+      coinData: fullData,
+      chartData: prices
+    };
+    return newCoin as oneWatchListData;
   }
 );
 const removeWatchedCoin = createAsyncThunk('user/removeWatchedCoin', async (id?: string) => {
   if (id) {
     const { data } = await userApi().delete(`/watchList?id=${id}`);
-    return data as watchList;
+    return { data, id } as { data: watchList; id: string };
   } else {
     const { data } = await userApi().delete('/watchList');
-    return data as watchList;
+    return { data, id } as { data: watchList; id: string };
   }
 });
 

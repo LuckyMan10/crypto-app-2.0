@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initState, watchList, watchListData } from './types';
+import { initState, watchList, ArrayWatchListData, oneWatchListData } from './types';
 import { getWatchList, addWatchedCoin, removeWatchedCoin, updateOneChart } from './thunks';
+import { dateFormatter } from 'utils/dateFormatter';
+import { coinFormatter } from 'utils/coinFormatter';
 
 const initialState = {
   userId: '',
@@ -30,30 +32,12 @@ const userSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(getWatchList.fulfilled, (state, action: PayloadAction<watchListData>) => {
+    builder.addCase(getWatchList.fulfilled, (state, action: PayloadAction<ArrayWatchListData>) => {
       const watchList = action.payload.map((el) => {
         state.days[el.coinData.id] = 365;
-        const coinData = {
-          rank: el.coinData.market_cap_rank,
-          name: el.coinData.name,
-          image: el.coinData.image.large || '',
-          currPrice:
-            el.coinData.market_data.current_price[state.defaultCurrency.toLocaleLowerCase()],
-          marketCap: el.coinData.market_data.market_cap[state.defaultCurrency.toLocaleLowerCase()],
-          title: 'Description of the cryptocurrency',
-          description: el.coinData.description['en'],
-          id: el.coinData.id
-        };
+        const coinData = coinFormatter(el.coinData, state.defaultCurrency);
         const chartData = el.chartData.map((el) => {
-          const date = new Date(el[0]);
-          const year = date.getFullYear();
-          const month = date.getMonth();
-          const day = date.getDate();
-          const hour = date.getHours();
-          const min = date.getMinutes();
-          const sec = date.getSeconds();
-          const fullDate = `${year}/${month}/${day}, ${hour} h. ${min} min. ${sec} sec.`;
-          return { date: fullDate, price: el[1] };
+          return dateFormatter(el);
         });
         state.charts[el.coinData.id] = chartData;
         state.chartsLoading[el.coinData.id] = false;
@@ -67,15 +51,7 @@ const userSlice = createSlice({
         updateOneChart.fulfilled,
         (state, action: PayloadAction<{ data: Array<Array<number>>; id: string }>) => {
           const chartData = action.payload.data.map((el) => {
-            const date = new Date(el[0]);
-            const year = date.getFullYear();
-            const month = date.getMonth();
-            const day = date.getDate();
-            const hour = date.getHours();
-            const min = date.getMinutes();
-            const sec = date.getSeconds();
-            const fullDate = `${year}/${month}/${day}, ${hour} h. ${min} min. ${sec} sec.`;
-            return { date: fullDate, price: el[1] };
+            return dateFormatter(el);
           });
           state.charts[action.payload.id] = chartData;
           state.chartsLoading[action.payload.id] = false;
@@ -85,17 +61,35 @@ const userSlice = createSlice({
         state.isWatchListError = true;
         state.isWatchListLoading = false;
       }),
-      builder.addCase(addWatchedCoin.fulfilled, (state, action: PayloadAction<watchList>) => {
-        state.watchList = action.payload.watchList;
-        state.isAddWatchListItemError = false;
-      }),
+      builder.addCase(
+        addWatchedCoin.fulfilled,
+        (state, action: PayloadAction<oneWatchListData>) => {
+          state.days[action.payload.coinData.id] = 365;
+          const coinData = coinFormatter(action.payload.coinData, state.defaultCurrency);
+          const chartData = action.payload.chartData.map((el) => {
+            return dateFormatter(el);
+          });
+          state.charts[coinData.id] = chartData;
+          state.watchList.push(coinData);
+          state.chartsLoading[coinData.id] = false;
+          state.isAddWatchListItemError = false;
+        }
+      ),
       builder.addCase(addWatchedCoin.rejected, (state) => {
         state.isAddWatchListItemError = true;
       }),
-      builder.addCase(removeWatchedCoin.fulfilled, (state, action: PayloadAction<watchList>) => {
-        state.watchList = action.payload.watchList;
-        state.isRemoveWatchListItemError = false;
-      }),
+      builder.addCase(
+        removeWatchedCoin.fulfilled,
+        (state, action: PayloadAction<{ data: watchList; id?: string }>) => {
+          if (action.payload.id) {
+            delete state.days[action.payload.id];
+            delete state.charts[action.payload.id];
+            delete state.chartsLoading[action.payload.id];
+            state.watchList = state.watchList.filter((el) => el.id !== action.payload.id);
+          }
+          state.isRemoveWatchListItemError = false;
+        }
+      ),
       builder.addCase(removeWatchedCoin.rejected, (state) => {
         state.isRemoveWatchListItemError = true;
       });

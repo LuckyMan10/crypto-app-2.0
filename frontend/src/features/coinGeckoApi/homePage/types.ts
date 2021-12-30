@@ -1,7 +1,7 @@
 export type initState = {
-  trendingCoins: Array<any>;
+  trendingCoins: Array<coinDataType>;
   coinsList: Array<coinType>;
-  filtredCoinsList: Array<any>;
+  filtredCoinsList: Array<coinType>;
   isTrendingCoinsLoading: boolean;
   isTrendingCoinsError: boolean;
   isCoinsListLoading: boolean;
@@ -19,8 +19,8 @@ export type coinType = {
   coin: string;
   image: string;
   id: string;
-  change: number;
-  cap: number;
+  change: number | string;
+  cap: number | string;
   key: string;
   price: string;
 };

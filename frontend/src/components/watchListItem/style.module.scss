@@ -8,12 +8,16 @@
 }
 .cardWrapper {
   width: 20%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
 }
 .chartWrapper {
   width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .oneCoinWrapper {
   display: flex;
@@ -28,4 +32,7 @@
 }
 .buttonsWrapper {
   width: 75%;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 }

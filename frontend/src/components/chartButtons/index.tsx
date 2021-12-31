@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
-import style from './style.module.scss';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { setDays } from 'features/coinGeckoApi/coinPage/index';
+import { Style } from './style';
 
 const ChartButtons: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +17,8 @@ const ChartButtons: React.FC = () => {
   };
 
   return (
-    <article className={style.chartButtons}>
-      <div onClick={chartButtonsClickHandler} className={style.buttonsWrapper}>
+    <Style>
+      <div onClick={chartButtonsClickHandler} className="buttonsWrapper">
         {buttonsData.map((el) => {
           return (
             <Button id={el.id} key={el.id} size="large" disabled={days === el.days} type="default">
@@ -27,7 +27,7 @@ const ChartButtons: React.FC = () => {
           );
         })}
       </div>
-    </article>
+    </Style>
   );
 };
 

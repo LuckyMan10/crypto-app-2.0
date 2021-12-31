@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { userType } from 'features/authApi/types';
-import style from './style.module.scss';
 import { useHistory } from 'react-router-dom';
 import { RouteNames } from 'routes/enum';
 import { useOutsideClick } from 'rooks';
@@ -33,8 +32,8 @@ const UserMenu: React.FC<userType> = ({ username }) => {
   };
   useOutsideClick(ref, closeMenuHandler);
   return (
-    <div className={style.menuWrapper}>
-      <div ref={ref} className={style.menu}>
+    <div className="menuWrapper">
+      <div ref={ref} className="menu">
         <Menu mode="inline" openKeys={openKeys} onOpenChange={onOpenChange}>
           <SubMenu key="sub1" icon={<UserOutlined />} title={username}>
             <Menu.Item key="3" onClick={watchListOpenHandler}>

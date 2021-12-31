@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import style from './style.module.scss';
 import { CurrencyCard } from 'components/currencyCard';
 import { getWatchList, updateOneChart } from 'features/userApi/thunks';
 import { setLoadingChart, setDays } from 'features/userApi/index';
@@ -9,17 +8,7 @@ import { Button, Divider } from 'antd';
 import { Spin } from 'antd';
 import { oneCoinType } from 'features/coinGeckoApi/coinPage/types';
 import { removeWatchedCoin } from 'features/userApi/thunks';
-
-const spinStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
-};
-const dividerStyle = {
-  color: 'white',
-  fontSize: 25,
-  borderColor: 'white'
-};
+import { Style } from './style';
 
 const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, index }) => {
   const dispatch = useAppDispatch();
@@ -42,31 +31,26 @@ const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, i
     dispatch(removeWatchedCoin(coin.id));
   };
   return (
-    <div
-      style={{ minHeight: emptyPageSize }}
-      className={style.watchList}
-      key={`watch-list_${index}`}>
-      <Divider style={dividerStyle} plain>
-        {coin.name}
-      </Divider>
-      <div className={style.oneCoin}>
-        <div className={style.oneCoinWrapper}>
-          <div className={style.cardWrapper}>
+    <Style emptyPageSize={emptyPageSize} key={`watch-list_${index}`}>
+      <Divider plain>{coin.name}</Divider>
+      <div className="oneCoin">
+        <div className="oneCoinWrapper">
+          <div className="cardWrapper">
             <CurrencyCard {...coin} />
             <Button onClick={removeCoinHandler} danger type="primary">
               <p>Remove coin</p>
             </Button>
           </div>
-          <div className={style.chartWrapper}>
+          <div className="chartWrapper">
             {!chartsLoading[coin.id] ? (
               <Line data={charts[coin.id]} padding="auto" xField="date" yField="price" />
             ) : (
-              <Spin size="large" style={spinStyle} />
+              <Spin size="large" />
             )}
           </div>
         </div>
-        <div className={style.buttons}>
-          <div onClick={chartButtonsClickHandler} className={style.buttonsWrapper}>
+        <div className="buttons">
+          <div onClick={chartButtonsClickHandler} className="buttonsWrapper">
             {buttonsData.map((button, index) => {
               return (
                 <Button
@@ -85,7 +69,7 @@ const WatchListItem: React.FC<{ coin: oneCoinType; index: number }> = ({ coin, i
           </div>
         </div>
       </div>
-    </div>
+    </Style>
   );
 };
 

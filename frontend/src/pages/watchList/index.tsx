@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { getWatchList } from 'features/userApi/thunks';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import style from './style.module.scss';
 import { WatchListItem } from 'components/watchListItem/index';
 import { Spin } from 'antd';
+import { Style } from './style';
 
 const WatchList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -11,18 +11,12 @@ const WatchList: React.FC = () => {
     (state) => state.user
   );
   const { emptyPageSize } = useAppSelector((state) => state.local);
-  const spinStyle = {
-    height: emptyPageSize,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  };
   useEffect(() => {
     dispatch(getWatchList({ currency: defaultCurrency, days: 365 }));
   }, []);
   return (
-    <main className={style.watchListPage}>
-      <div className={style.pageWrapper}>
+    <Style emptyPageSize={emptyPageSize}>
+      <div className="pageWrapper">
         {!isWatchListLoading && !isWatchListError ? (
           watchList.map((el, index) => {
             const coinData = { coin: el, index };
@@ -33,10 +27,10 @@ const WatchList: React.FC = () => {
             );
           })
         ) : (
-          <Spin size="large" style={spinStyle} />
+          <Spin size="large" />
         )}
       </div>
-    </main>
+    </Style>
   );
 };
 export { WatchList };

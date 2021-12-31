@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './style.module.scss';
 
 type Description = {
   rank: number;
@@ -9,7 +8,7 @@ type Description = {
 
 const Description: React.FC<Description> = ({ rank, currPrice, marketCap }) => {
   return (
-    <div className={style.cardDescription}>
+    <div className="cardDescription">
       <p>Rank: {rank}</p>
       <p>Current Price: {currPrice}</p>
       <p>Market Cap: {marketCap}</p>

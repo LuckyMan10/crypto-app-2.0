@@ -5,24 +5,18 @@ import { CurrencyCard } from 'components/currencyCard';
 import { CurrencyDescription } from 'components/currencyDescription';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { useHistory, useParams } from 'react-router-dom';
-import style from './style.module.scss';
 import { getOneCoinData, getChartData } from 'features/coinGeckoApi/coinPage/thunks';
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { RouteNames } from 'routes/enum';
 import { AddToWatch } from 'components/addToWatchButton';
+import { Style } from './style';
 
 const Coin: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { emptyPageSize } = useAppSelector((state) => state.local);
   const { isAuth, isAuthError } = useAppSelector((state) => state.auth);
-  const spinStyle = {
-    height: emptyPageSize,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  };
   const {
     isOneCoinLoading,
     isOneCoinError,
@@ -45,18 +39,18 @@ const Coin: React.FC = () => {
     window.scrollTo(0, 0);
   };
   return (
-    <main className={style.coin}>
+    <Style emptyPageSize={emptyPageSize}>
       {!isOneCoinLoading && !isOneCoinError && !isChartDataLoading && !isChartDataError ? (
         <>
           <Chart chartData={chartData} />
           <ChartButtons />
-          <div className={style.wrapper}>
-            <div className={style.coinMain}>
+          <div className="wrapper">
+            <div className="coinMain">
               <CurrencyCard {...oneCoinData[0]} />
               <CurrencyDescription {...oneCoinData[0]} />
             </div>
           </div>
-          <div className={style.toHomeWrapper}>
+          <div className="toHomeWrapper">
             <Button size="large" onClick={toHomeHandler}>
               To home
             </Button>
@@ -64,9 +58,9 @@ const Coin: React.FC = () => {
           {isAuth && !isAuthError && <AddToWatch />}
         </>
       ) : (
-        <Spin size="large" style={spinStyle} />
+        <Spin size="large" />
       )}
-    </main>
+    </Style>
   );
 };
 

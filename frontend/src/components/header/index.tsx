@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import style from './style.module.scss';
 import { Logo } from './logo';
 import { AuthModal } from 'components/authModal';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -9,6 +8,7 @@ import { setAuthModalVisible } from 'features/local/localSlice';
 import { useMediaQuery } from 'react-responsive';
 import { SelectCurr } from './SelectCurr';
 import { UserMenu } from './Menu';
+import { Style } from './style';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,15 +18,15 @@ const Header: React.FC = () => {
     dispatch(setAuthModalVisible(true));
   }
   return (
-    <header className={style.header}>
+    <Style>
       <Logo />
-      <div className={style.buttons}>
-        <div className={style.selectWrapper}>{!isMediumScreen && <SelectCurr />}</div>
-        <div className={style.authBtnWrapper}>
+      <div className="buttons">
+        <div className="selectWrapper">{!isMediumScreen && <SelectCurr />}</div>
+        <div className="authBtnWrapper">
           {isAuth && !isAuthError ? (
             <UserMenu {...user} />
           ) : (
-            <div className={style.notAuthBtnWrapper}>
+            <div className="notAuthBtnWrapper">
               <Button onClick={loginButtonHandler} type="primary" icon={<UserOutlined />}>
                 Login
               </Button>
@@ -35,10 +35,10 @@ const Header: React.FC = () => {
           )}
         </div>
       </div>
-      <div className={style.authModalWrapper}>
+      <div className="authModalWrapper">
         <AuthModal />
       </div>
-    </header>
+    </Style>
   );
 };
 

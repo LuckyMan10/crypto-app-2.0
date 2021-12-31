@@ -1,4 +1,6 @@
-.Slider {
+import Styled from 'styled-components';
+
+const Style = Styled.article`
     position: relative;
     padding-top: 10px;
     display: flex;
@@ -19,7 +21,7 @@
         position: relative;
         z-index: 5;
     }
-    @media all and(max-width: 350px) {
+    @media (max-width: 350px) {
         h1 {
             font-size: 2rem;
         }
@@ -27,8 +29,7 @@
             font-size: 1.1rem;
         }
     }
-}
-.background {
+    .background {
     top: 0;
     position: absolute;
     width: 100%;
@@ -44,23 +45,26 @@
         height: 100%;
         width: 100%;
     }
-}
-.slide {
-    user-select: none;
-    cursor: pointer;
-    img {
-        max-width: 100px;
     }
-    p {
-        font-size: 30px;
-        color: white;
-    }
-    @media all and(max-width: 350px) {
+    .slide {
+        user-select: none;
+        cursor: pointer;
         img {
-            max-width: 75px;
+            max-width: 100px;
         }
         p {
-            font-size: 1.1rem;
+            font-size: 30px;
+            color: white;
+        }
+        @media (max-width: 350px) {
+            img {
+                max-width: 75px;
+            }
+            p {
+                font-size: 1.1rem;
+            }
         }
     }
-}
+`;
+
+export { Style };

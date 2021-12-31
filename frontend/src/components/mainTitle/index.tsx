@@ -1,11 +1,11 @@
 import React from 'react';
-import style from './style.module.scss';
+import { Style } from './style';
 
 const MainTitle = () => {
   return (
-    <article className={style.mainTitle}>
+    <Style>
       <h2>Cryptocurrency Prices by Market Cap</h2>
-    </article>
+    </Style>
   );
 };
 

@@ -1,12 +1,7 @@
 import React from 'react';
-import style from './style.module.scss';
 import { Card } from 'antd';
 import { Description } from './description';
-
-const cardStyle = {
-  width: '100%',
-  minWidth: 315
-};
+import { Style } from './style';
 
 type cardType = {
   rank: number;
@@ -18,15 +13,15 @@ type cardType = {
 
 const CurrencyCard: React.FC<cardType> = ({ rank, name, image, currPrice, marketCap }) => {
   return (
-    <article className={style.currencyCard}>
-      <Card style={cardStyle}>
-        <div className={style.cardWrapper}>
+    <Style>
+      <Card>
+        <div className="cardWrapper">
           <img src={image} alt="coin" />
           <h3>{name}</h3>
           <Description rank={rank} currPrice={currPrice} marketCap={marketCap} />
         </div>
       </Card>
-    </article>
+    </Style>
   );
 };
 

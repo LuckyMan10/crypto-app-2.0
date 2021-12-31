@@ -1,22 +1,6 @@
-.wrapper {
-    padding: 40px 0px;
-    display: flex;
-    justify-content: center;
-}
-.coinMain {
-    display: flex;
-    width: 70%;
-    align-items: center;
-    flex-direction: column;
-    gap: 50px;
-    justify-content: space-around;
-}
-.toHomeWrapper {
-    display: flex;
-    justify-content: center;
-    margin: 0px 0px 30px 0px;
-}
-.addToWatchWrapper {
+import Styled from 'styled-components';
+
+const Style = Styled.div`
     position: fixed;
     bottom: 3%;
     right: 3%;
@@ -41,4 +25,6 @@
             opacity: 1;
         }
     }
-}
+`;
+
+export { Style };

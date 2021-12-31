@@ -1,17 +1,17 @@
 import React from 'react';
 import { Line } from '@ant-design/charts';
-import style from './style.module.scss';
+import { Style } from './style';
 import { ChartDataType } from './types';
 
 const Chart: React.FC<ChartDataType> = ({ chartData }) => {
   return (
-    <article className={style.chart}>
+    <Style>
       {
-        <div className={style.chartWrapper}>
+        <div className="chartWrapper">
           <Line data={chartData} padding="auto" xField="date" yField="price" />
         </div>
       }
-    </article>
+    </Style>
   );
 };
 

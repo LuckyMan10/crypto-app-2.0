@@ -3,11 +3,11 @@ import { Modal } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setAuthModalVisible } from 'features/local/localSlice';
 import { Button } from 'antd';
-import style from './style.module.scss';
 import { Login } from 'components/forms/login';
 import { Registration } from 'components/forms/registration';
 import { Spin } from 'antd';
 import { modal } from './enum';
+import { Style } from './style';
 
 const AuthModal: React.FC = () => {
   const [authVariant, setAuthVariant] = useState<string>(modal.LOGIN);
@@ -27,7 +27,7 @@ const AuthModal: React.FC = () => {
   };
 
   return (
-    <article>
+    <Style>
       <Modal
         title="login, registration"
         visible={isAuthModalVisible}
@@ -35,7 +35,7 @@ const AuthModal: React.FC = () => {
         onCancel={handleCancel}
         footer={null}>
         <Spin size="large" spinning={isAuthLoading}>
-          <div onClick={buttonsHandler} className={style.logReg_buttons}>
+          <div onClick={buttonsHandler} className="variant-buttons">
             <Button disabled={authVariant === modal.LOGIN} id={modal.LOGIN}>
               <p id={modal.LOGIN}>Login</p>
             </Button>
@@ -46,7 +46,7 @@ const AuthModal: React.FC = () => {
           {authVariant === modal.LOGIN ? <Login /> : <Registration />}
         </Spin>
       </Modal>
-    </article>
+    </Style>
   );
 };
 

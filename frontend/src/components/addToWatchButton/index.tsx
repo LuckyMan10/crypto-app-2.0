@@ -2,8 +2,8 @@ import React from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { addWatchedCoin } from 'features/userApi/thunks';
 import spinCoin from 'assets/gif/spin_coin.gif';
-import style from './style.module.scss';
 import { addNewCoin } from 'features/userApi/types';
+import { Style } from './style';
 
 const AddToWatch: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,12 +23,12 @@ const AddToWatch: React.FC = () => {
   };
 
   return (
-    <div className={style.addToWatchWrapper}>
+    <Style>
       <button onClick={addToWatchHandler}>
         <img src={spinCoin} alt="spin-coin" />
         <h2>Add to watch list</h2>
       </button>
-    </div>
+    </Style>
   );
 };
 

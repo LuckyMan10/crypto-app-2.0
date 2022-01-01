@@ -1,4 +1,7 @@
 export declare type InternalNamePath = (string | number)[];
+type valuesType = {
+  [key: string]: string | boolean | undefined;
+};
 export type loginData = {
   email: string;
   password: string;
@@ -11,7 +14,7 @@ export type regData = {
   confirm?: string;
   remember?: boolean;
 };
-export type errorsType<Values = any> = {
+export type errorsType<Values = valuesType> = {
   values: Values;
   errorFields: {
     name: InternalNamePath;

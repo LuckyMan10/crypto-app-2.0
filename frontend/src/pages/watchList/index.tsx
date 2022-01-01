@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { WatchListItem } from 'components/watchListItem/index';
 import { Spin } from 'antd';
 import { Style } from './style';
+import { EmptyWatchList } from 'components/emptyWatchList/index';
 
 const WatchList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ const WatchList: React.FC = () => {
         ) : (
           <Spin size="large" />
         )}
+        {!watchList.length && !isWatchListLoading && <EmptyWatchList />}
       </div>
     </Style>
   );

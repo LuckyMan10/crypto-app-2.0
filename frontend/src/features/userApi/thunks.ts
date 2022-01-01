@@ -48,6 +48,9 @@ const addWatchedCoin = createAsyncThunk(
   'user/addWatchedCoin',
   async ({ newCoinData, days, currency }: addNewCoin) => {
     const { data: coinsData } = await userApi().put('/watchList', newCoinData);
+    if (typeof coinsData === 'string') {
+      throw coinsData;
+    }
     const lastCoin = coinsData.watchList[coinsData.watchList.length - 1];
     const { data: fullData } = await axios.get(`${coinGecko}/${lastCoin.id}`);
     const { data } = await axios.get(

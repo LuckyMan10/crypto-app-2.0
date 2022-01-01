@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import bitcoin from 'assets/icons/Bitcoin.png';
-import cardano from 'assets/icons/cardano.png';
-import eth from 'assets/icons/eth.png';
-import solana from 'assets/icons/solana.png';
-import usdt from 'assets/icons/usdt.png';
 import backgroundImg from 'assets/images/backgroundSlider.jpg';
 import { Style } from './style';
+import { useAppSelector, useAppDispatch } from 'app/hooks';
+import { getTrendingCoins } from 'features/coinGeckoApi/homePage/thunks';
 
 const Slider: React.FC = () => {
+  const { trendingCoins, isTrendingCoinsLoading, isTrendingCoinsError, defaultCurrency } =
+    useAppSelector((state) => state.home);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getTrendingCoins(defaultCurrency));
+  }, []);
   return (
     <Style>
       <h1>Crypto App</h1>
@@ -18,36 +21,26 @@ const Slider: React.FC = () => {
         <span></span>
         <img src={backgroundImg} />
       </div>
-      <Carousel
-        transitionTime={1000}
-        interval={6000}
-        showStatus={false}
-        showThumbs={false}
-        infiniteLoop={true}
-        showIndicators={false}
-        autoPlay={true}
-        showArrows={false}>
-        <div className="slide">
-          <img src={solana} />
-          <p>solana</p>
-        </div>
-        <div className="slide">
-          <img src={bitcoin} />
-          <p>bitcoin</p>
-        </div>
-        <div className="slide">
-          <img src={usdt} />
-          <p>usdt</p>
-        </div>
-        <div className="slide">
-          <img src={eth} />
-          <p>eth</p>
-        </div>
-        <div className="slide">
-          <img src={cardano} />
-          <p>cardano</p>
-        </div>
-      </Carousel>
+      {!isTrendingCoinsError && !isTrendingCoinsLoading && (
+        <Carousel
+          transitionTime={1000}
+          interval={6000}
+          showStatus={false}
+          showThumbs={false}
+          infiniteLoop={true}
+          showIndicators={false}
+          autoPlay={true}
+          showArrows={false}>
+          {trendingCoins.map((coin, index) => {
+            return (
+              <div key={`slide_key_${index}`} className="slide">
+                <img src={coin.image} />
+                <p>{coin.name}</p>
+              </div>
+            );
+          })}
+        </Carousel>
+      )}
     </Style>
   );
 };

@@ -1,0 +1,10 @@
+version: "3"
+services:
+  api:
+    build: ./backend
+    network_mode: "host" 
+    container_name: crypto-api
+  client:
+    build: ./frontend
+    network_mode: "host" 
+    container_name: crypto-client
